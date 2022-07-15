@@ -28,4 +28,10 @@ public class Account {
 
     @Column(name = "AVAILABLE_FUNDS")
     private Double availableFunds;
+
+    public Account(String nrb, String currency, Double availableFunds){
+        this.nrb = nrb;
+        this.currency = currency;
+        this.availableFunds = availableFunds;
+    }
 }
