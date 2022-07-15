@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
 @Getter
 @AllArgsConstructor
@@ -27,9 +28,9 @@ public class Account {
     private String currency;
 
     @Column(name = "AVAILABLE_FUNDS")
-    private Double availableFunds;
+    private BigDecimal availableFunds;
 
-    public Account(String nrb, String currency, Double availableFunds){
+    public Account(String nrb, String currency, BigDecimal availableFunds){
         this.nrb = nrb;
         this.currency = currency;
         this.availableFunds = availableFunds;
