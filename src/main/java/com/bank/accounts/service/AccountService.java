@@ -1,14 +1,10 @@
 package com.bank.accounts.service;
 
-import com.bank.accounts.domain.Account;
-import com.bank.accounts.exception.NotFoundAccountException;
 import com.bank.accounts.repository.AccountRepository;
-import lombok.NoArgsConstructor;
+import com.bank.accounts.domain.Account;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManagerFactory;
 import java.util.List;
 
 
@@ -21,7 +17,7 @@ public class AccountService {
 
     public Account saveAccount(Account account){return accountRepository.save(account);}
 
-    public List<Account> getAccountById(Long customerId){
+    public List<Account> getAccountByCustomerId(Long customerId){
         return accountRepository.findAccountsByCustomerId(customerId);
     }
 }
