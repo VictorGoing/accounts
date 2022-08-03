@@ -32,14 +32,13 @@ public class AccountController {
     private final AccountMapper accountMapper;
 
     @GetMapping
-    public ResponseEntity<GetAccountsResponse> getAccountById(@RequestParam("customerId") Long customerId) throws NotFoundAccountException {
+    public ResponseEntity<GetAccountsResponse> getAccountById(@RequestParam("customerId") Long customerId){
+        log.info("Get accounts for customerId: {}", customerId);
         if(!allowGetAccounts) {
             log.info("Getting accounts is disabled");
             throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, "Getting accounts is disabled");
         }
-        AccountDto accountDto = accountMapper.mapToAccountDto(accountService.getAccountById(customerId));
-        List<AccountDto> list = new ArrayList<>();
-        list.add(accountDto);
+        List<AccountDto> list = accountMapper.mapToAccountDtoList(accountService.getAccountById(customerId));
         return ResponseEntity.ok(new GetAccountsResponse(list));
     }
 

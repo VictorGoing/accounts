@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManagerFactory;
+import java.util.List;
 
 
 @Service
@@ -20,7 +21,7 @@ public class AccountService {
 
     public Account saveAccount(Account account){return accountRepository.save(account);}
 
-    public Account getAccountById(Long id) throws NotFoundAccountException{
-        return accountRepository.findById(id).orElseThrow(NotFoundAccountException::new);
+    public List<Account> getAccountById(Long customerId){
+        return accountRepository.findAccountsByCustomerId(customerId);
     }
 }

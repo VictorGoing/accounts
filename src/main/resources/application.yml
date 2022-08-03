@@ -5,6 +5,10 @@ spring:
     name: accounts
   profiles:
     active: production
+  cloud:
+    config:
+      uri: http://localhost:8888
+      profile: ${spring.profiles.active}
 
 # ACTUATOR INFO
 info:
@@ -26,3 +30,7 @@ eureka:
 
 application:
   allow-get-accounts: ${accounts.allow-get-accounts}
+
+server:
+  port: 9999
+
