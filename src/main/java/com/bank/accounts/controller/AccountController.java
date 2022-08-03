@@ -6,23 +6,37 @@ import com.bank.accounts.exception.NotFoundAccountException;
 import com.bank.accounts.mapper.AccountMapper;
 import com.bank.accounts.service.AccountService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @RestController
+@RefreshScope
 @RequestMapping("/v1/accounts")
 @RequiredArgsConstructor
 public class AccountController {
+
+    @Value("${application.allow-get-accounts}")
+    private boolean allowGetAccounts;
 
     private final AccountService accountService;
     private final AccountMapper accountMapper;
 
     @GetMapping
-    public ResponseEntity<GetAccountsResponse> getAccountById(@RequestParam Long customerId) throws NotFoundAccountException {
+    public ResponseEntity<GetAccountsResponse> getAccountById(@RequestParam("customerId") Long customerId) throws NotFoundAccountException {
+        if(!allowGetAccounts) {
+            log.info("Getting accounts is disabled");
+            throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, "Getting accounts is disabled");
+        }
         AccountDto accountDto = accountMapper.mapToAccountDto(accountService.getAccountById(customerId));
         List<AccountDto> list = new ArrayList<>();
         list.add(accountDto);
